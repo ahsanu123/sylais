@@ -44,6 +44,25 @@ whisper_print_timings:    total time =  3099.74 ms
 
 ## Piper POC Log
 
+<details>
+  <summary>Expand....</summary>
+
+- to use piper, you only need compiled binary (relased under their github), and simple echo command
+
+```shell
+D:\project\personalProject\piper>echo 'hello piper' | piper -m en_GB-jenny_dioco-medium.onnx -c en_GB-jenny_dioco-medium.onnx.json
+[2025-06-20 07:41:52.944] [piper] [info] Loaded voice in 0.3411954 second(s)
+[2025-06-20 07:41:52.965] [piper] [info] Initialized piper
+[2025-06-20 07:41:52.965] [piper] [info] Output directory: D:\project\personalProject\piper
+D:\project\personalProject\piper\1750380112966465700.wav
+[2025-06-20 07:41:53.068] [piper] [info] Real-time factor: 0.086504291015625 (infer=0.0703019 sec, audio=0.8126984126984127 sec)
+[2025-06-20 07:41:53.069] [piper] [info] Terminated piper
+```
+  
+</details>
+
+
+
 ## Flow
 
 - NAudio 
