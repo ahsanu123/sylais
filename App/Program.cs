@@ -1,4 +1,3 @@
-
 // =========================================================
 // Basic Terminal.Gui With ReactiveUI
 // =========================================================
@@ -19,16 +18,26 @@
 // Application.Top?.Dispose();
 // Application.Shutdown();
 
-
-
+using Microsoft.Extensions.DependencyInjection;
 using SoundFlow.Backends.MiniAudio;
 using SoundFlow.Enums;
+using Sylais;
+using Sylais.Constant;
+using Sylais.Extensions;
+using Sylais.Steps;
 
-using var audioEngine = new MiniAudioEngine(48000, Capability.Playback, SampleFormat.F32, 2);
+var services = new ServiceCollection();
 
-// List playback devices
-audioEngine.UpdateDevicesInfo();
-foreach (var device in audioEngine.PlaybackDevices)
+services.RegisterServices();
+
+var provider = services.BuildServiceProvider();
+
+using (var recordEngine = AudioEngineManager.Instance.UseAsRecord())
 {
-    Console.WriteLine($"Device: {device.Name}, Default: {device.IsDefault}");
+    new CaptureAudioSteps(recordEngine).ChooseCaptureDevice().RecordAudio();
+}
+
+using (var playEngine = new MiniAudioEngine(AudioConstant.SampleRate, Capability.Playback))
+{
+    new PlayAudioSteps(playEngine).PlayRecordedAudio();
 }
