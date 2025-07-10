@@ -3,24 +3,32 @@ using SoundFlow.Enums;
 using SoundFlow.Structs;
 using Spectre.Console;
 using Sylais.Constant;
+using Sylais.Models;
 
 namespace Sylais.Steps
 {
-    public class CaptureAudioSteps
+    public class CaptureAudioSteps : IBaseStep
     {
-        private MiniAudioEngine _audioEngine;
+        private MiniAudioEngine? _audioEngine;
         private DeviceInfo? _currentCaptureDevice;
+        private AudioFileConfig _audioConfig;
 
-        public CaptureAudioSteps(MiniAudioEngine miniAudioEngine)
+        public CaptureAudioSteps(AudioFileConfig audioFileConfig)
         {
-            if (miniAudioEngine.Capability != Capability.Record)
-                throw new Exception($"audio engine must able to do {Capability.Record}");
-            _audioEngine = miniAudioEngine;
-            _currentCaptureDevice = miniAudioEngine.CurrentCaptureDevice;
+            _audioConfig = audioFileConfig;
+        }
+
+        public void TakeAudioEngine()
+        {
+            _audioEngine = AudioEngineManager.Instance.UseAsRecord();
+            _currentCaptureDevice = _audioEngine.CurrentCaptureDevice;
         }
 
         public CaptureAudioSteps ChooseCaptureDevice()
         {
+            if (_audioEngine == null)
+                throw new Exception("Call TakeAudioEngine First");
+
             var inputDevices = _audioEngine.CaptureDevices;
             var inputDevicePrompt = new SelectionPrompt<DeviceInfo>()
                 .Title("Choose Capture Device!!")
@@ -47,8 +55,8 @@ namespace Sylais.Steps
         {
             var outputFilePath = Path.Combine(
                 Directory.GetCurrentDirectory(),
-                "AudioSample",
-                "output.wav"
+                _audioConfig.FolderName,
+                _audioConfig.FileName
             );
 
             using var fileStream = new FileStream(
@@ -72,6 +80,17 @@ namespace Sylais.Steps
 
             Console.WriteLine($"Recording stopped. Saved to {outputFilePath}");
             return this;
+        }
+
+        public void Run()
+        {
+            TakeAudioEngine();
+            ChooseCaptureDevice().RecordAudio().Dispose();
+        }
+
+        public void Dispose()
+        {
+            _audioEngine?.Dispose();
         }
     }
 }

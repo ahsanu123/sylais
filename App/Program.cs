@@ -19,25 +19,13 @@
 // Application.Shutdown();
 
 using Microsoft.Extensions.DependencyInjection;
-using SoundFlow.Backends.MiniAudio;
-using SoundFlow.Enums;
-using Sylais;
-using Sylais.Constant;
 using Sylais.Extensions;
 using Sylais.Steps;
 
 var services = new ServiceCollection();
 
-services.RegisterServices();
+services.RegisterConfigurationServices().RegisterServices();
 
 var provider = services.BuildServiceProvider();
 
-using (var recordEngine = AudioEngineManager.Instance.UseAsRecord())
-{
-    new CaptureAudioSteps(recordEngine).ChooseCaptureDevice().RecordAudio();
-}
-
-using (var playEngine = new MiniAudioEngine(AudioConstant.SampleRate, Capability.Playback))
-{
-    new PlayAudioSteps(playEngine).PlayRecordedAudio();
-}
+provider.RunStep<CaptureAudioSteps>().RunStep<PlayAudioSteps>().RunStep<TranscribeAudioSteps>();

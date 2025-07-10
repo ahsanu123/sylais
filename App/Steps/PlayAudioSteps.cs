@@ -1,29 +1,40 @@
 using SoundFlow.Backends.MiniAudio;
-using SoundFlow.Enums;
 using SoundFlow.Components;
+using SoundFlow.Enums;
 using SoundFlow.Providers;
+using SoundFlow.Structs;
+using Sylais.Models;
 
 namespace Sylais.Steps
 {
-    public class PlayAudioSteps
+    public class PlayAudioSteps : IBaseStep
     {
-        private MiniAudioEngine _audioEngine;
+        private MiniAudioEngine? _audioEngine;
+        private DeviceInfo? _currentCaptureDevice;
+        private AudioFileConfig _audioConfig;
 
-        public PlayAudioSteps(MiniAudioEngine miniAudioEngine)
+        public PlayAudioSteps(AudioFileConfig audioFileConfig)
         {
-            if (miniAudioEngine.Capability != Capability.Playback)
-                throw new Exception($"audio engine must able to do {Capability.Playback}");
-            _audioEngine = miniAudioEngine;
+            _audioConfig = audioFileConfig;
+        }
+
+        public void TakeAudioEngine()
+        {
+            _audioEngine = AudioEngineManager.Instance.UseAsPlayback();
+            _currentCaptureDevice = _audioEngine.CurrentCaptureDevice;
         }
 
         public PlayAudioSteps PlayRecordedAudio()
         {
+            if (_audioEngine == null)
+                throw new Exception("Call TakeAudioEngine First");
+
             Console.WriteLine("Playing Recorded Audio");
 
             var outputFilePath = Path.Combine(
                 Directory.GetCurrentDirectory(),
-                "AudioSample",
-                "output.wav"
+                _audioConfig.FolderName,
+                _audioConfig.FileName
             );
             using var dataProvider = new StreamDataProvider(File.OpenRead(outputFilePath));
             var audioPlayer = new SoundPlayer(dataProvider);
@@ -32,14 +43,36 @@ namespace Sylais.Steps
 
             audioPlayer.Play();
 
-            Console.WriteLine("Playing audio... Press any key to stop.");
-            Console.ReadKey();
+            Console.WriteLine($"{audioPlayer.State}...");
 
-            audioPlayer.Stop();
+            while (audioPlayer.State == PlaybackState.Playing)
+            {
+                if (Console.KeyAvailable)
+                {
+                    audioPlayer.Stop();
+                    break;
+                }
+
+                Thread.Sleep(100);
+            }
+
+            if (audioPlayer.State != PlaybackState.Stopped)
+                audioPlayer.Stop();
 
             Mixer.Master.RemoveComponent(audioPlayer);
+
             return this;
         }
 
+        public void Run()
+        {
+            TakeAudioEngine();
+            PlayRecordedAudio().Dispose();
+        }
+
+        public void Dispose()
+        {
+            _audioEngine?.Dispose();
+        }
     }
 }
