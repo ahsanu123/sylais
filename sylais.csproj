@@ -19,6 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="SoundFlow" Version="1.0.4" />
     <PackageReference Include="Splat" Version="15.4.1" />
     <PackageReference Include="Terminal.Gui" Version="2.0.0-develop.4524" />
   </ItemGroup>

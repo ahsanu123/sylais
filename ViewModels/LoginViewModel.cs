@@ -56,12 +56,12 @@ public partial class LoginViewModel : ReactiveObject
                 !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)
         );
 
-        _isValidHelper = canLogin.ToProperty(this, x => x.IsValid);
-
         Login = ReactiveCommand.CreateFromTask<CommandEventArgs>(
             e => Task.Delay(TimeSpan.FromSeconds(1)),
             canLogin
         );
+
+        _isValidHelper = canLogin.ToProperty(this, x => x.IsValid);
 
         _usernameLengthHelper = this.WhenAnyValue(x => x.Username)
             .Select(name => name.Length)
