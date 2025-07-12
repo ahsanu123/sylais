@@ -1,38 +1,31 @@
-using SoundFlow.Backends.MiniAudio;
-using SoundFlow.Structs;
 using Sylais.Commands;
+using Sylais.Models;
 
 namespace Sylais.Steps
 {
-    public class TranscribeAudioSteps : IBaseStep
+    public class TranscribeAudioSteps : BaseAudioSteps
     {
-        private MiniAudioEngine? _audioEngine;
-        private DeviceInfo? _currentCaptureDevice;
         private WhisperCppCommand _whisperCppCommand;
 
-        public TranscribeAudioSteps(WhisperCppCommand whisperCppCommand)
+        public TranscribeAudioSteps(
+            AudioFileConfig audioFileConfig,
+            WhisperCppCommand whisperCppCommand
+        )
+            : base(audioFileConfig)
         {
             _whisperCppCommand = whisperCppCommand;
         }
 
-        public void TakeAudioEngine()
+        public override void TakeAudioEngine()
         {
             _audioEngine = AudioEngineManager.Instance.UseAsPlayback();
             _currentCaptureDevice = _audioEngine.CurrentCaptureDevice;
         }
 
-        public void Run()
+        public override void Run()
         {
             var transcribedText = _whisperCppCommand.Transcribe().GetAwaiter().GetResult();
             Console.WriteLine(transcribedText);
-
-            // TakeAudioEngine();
-            // PlayRecordedAudio().Dispose();
-        }
-
-        public void Dispose()
-        {
-            _audioEngine?.Dispose();
         }
     }
 }

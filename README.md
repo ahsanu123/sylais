@@ -109,6 +109,7 @@ Playing...
 
 [00:00:00.000 --> 00:00:03.240]   Hello, who are you? I'm Tim, thank you.
 ```
+- 12 Juli ⏰ 20:20, make update to project, suddently piper is moved to use python and not cpp compiled binary.
 
 
 ## Flow

@@ -10,19 +10,17 @@ public class WhisperCppCommand : BaseCommand
     private AudioFileConfig _audioConfig;
 
     public WhisperCppCommand(
-        DependenciesBinaryPathConfig dependenciesBinaryPathConfig,
         AudioFileConfig audioFileConfig
     )
-        : base(dependenciesBinaryPathConfig)
     {
-        _command = Cli.Wrap(Path.GetFullPath(dependenciesBinaryPathConfig.WhisperCppPath));
+        _command = Cli.Wrap("");
         _audioConfig = audioFileConfig;
     }
 
     public async Task<string> Transcribe()
     {
         var fullWavPath = _audioConfig.GetTempWavPath();
-        var fullWhisperModelPath = Path.GetFullPath(_dependenciesBinaryPathConfig.WhisperModelPath);
+        var fullWhisperModelPath = Path.GetFullPath("");
 
         var result = await _command
             .WithArguments(["-f", fullWavPath, "-m", fullWhisperModelPath, "--no-prints"])

@@ -1,28 +1,14 @@
-using SoundFlow.Backends.MiniAudio;
 using SoundFlow.Components;
 using SoundFlow.Enums;
 using SoundFlow.Providers;
-using SoundFlow.Structs;
 using Sylais.Models;
 
 namespace Sylais.Steps
 {
-    public class PlayAudioSteps : IBaseStep
+    public class PlayAudioSteps : BaseAudioSteps
     {
-        private MiniAudioEngine? _audioEngine;
-        private DeviceInfo? _currentCaptureDevice;
-        private AudioFileConfig _audioConfig;
-
         public PlayAudioSteps(AudioFileConfig audioFileConfig)
-        {
-            _audioConfig = audioFileConfig;
-        }
-
-        public void TakeAudioEngine()
-        {
-            _audioEngine = AudioEngineManager.Instance.UseAsPlayback();
-            _currentCaptureDevice = _audioEngine.CurrentCaptureDevice;
-        }
+            : base(audioFileConfig) { }
 
         public PlayAudioSteps PlayRecordedAudio()
         {
@@ -64,15 +50,16 @@ namespace Sylais.Steps
             return this;
         }
 
-        public void Run()
+        public override void TakeAudioEngine()
+        {
+            _audioEngine = AudioEngineManager.Instance.UseAsPlayback();
+            _currentCaptureDevice = _audioEngine.CurrentCaptureDevice;
+        }
+
+        public override void Run()
         {
             TakeAudioEngine();
             PlayRecordedAudio().Dispose();
-        }
-
-        public void Dispose()
-        {
-            _audioEngine?.Dispose();
         }
     }
 }

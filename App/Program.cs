@@ -25,6 +25,7 @@ using Sylais.Steps;
 var services = new ServiceCollection();
 
 services.RegisterConfigurationServices().RegisterServices();
+// services.AddHostedService();
 
 var provider = services.BuildServiceProvider();
 

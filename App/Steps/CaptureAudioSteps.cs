@@ -1,4 +1,3 @@
-using SoundFlow.Backends.MiniAudio;
 using SoundFlow.Enums;
 using SoundFlow.Structs;
 using Spectre.Console;
@@ -7,22 +6,10 @@ using Sylais.Models;
 
 namespace Sylais.Steps
 {
-    public class CaptureAudioSteps : IBaseStep
+    public class CaptureAudioSteps : BaseAudioSteps
     {
-        private MiniAudioEngine? _audioEngine;
-        private DeviceInfo? _currentCaptureDevice;
-        private AudioFileConfig _audioConfig;
-
         public CaptureAudioSteps(AudioFileConfig audioFileConfig)
-        {
-            _audioConfig = audioFileConfig;
-        }
-
-        public void TakeAudioEngine()
-        {
-            _audioEngine = AudioEngineManager.Instance.UseAsRecord();
-            _currentCaptureDevice = _audioEngine.CurrentCaptureDevice;
-        }
+            : base(audioFileConfig) { }
 
         public CaptureAudioSteps ChooseCaptureDevice()
         {
@@ -82,15 +69,10 @@ namespace Sylais.Steps
             return this;
         }
 
-        public void Run()
+        public override void Run()
         {
             TakeAudioEngine();
             ChooseCaptureDevice().RecordAudio().Dispose();
-        }
-
-        public void Dispose()
-        {
-            _audioEngine?.Dispose();
         }
     }
 }
