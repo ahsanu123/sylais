@@ -26,6 +26,6 @@ namespace Sylais.Steps
             _audioEngine?.Dispose();
         }
 
-        public abstract void Run();
+        public abstract Task Run();
     }
 }

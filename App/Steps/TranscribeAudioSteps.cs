@@ -22,7 +22,7 @@ namespace Sylais.Steps
             _currentCaptureDevice = _audioEngine.CurrentCaptureDevice;
         }
 
-        public override void Run()
+        public override async Task Run()
         {
             var transcribedText = _whisperCppCommand.Transcribe().GetAwaiter().GetResult();
             Console.WriteLine(transcribedText);

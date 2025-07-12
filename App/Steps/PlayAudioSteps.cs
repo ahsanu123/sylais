@@ -56,7 +56,7 @@ namespace Sylais.Steps
             _currentCaptureDevice = _audioEngine.CurrentCaptureDevice;
         }
 
-        public override void Run()
+        public override async Task Run()
         {
             TakeAudioEngine();
             PlayRecordedAudio().Dispose();

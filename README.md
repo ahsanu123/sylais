@@ -110,6 +110,10 @@ Playing...
 [00:00:00.000 --> 00:00:03.240]   Hello, who are you? I'm Tim, thank you.
 ```
 - 12 Juli ⏰ 20:20, make update to project, suddently piper is moved to use python and not cpp compiled binary.
+- 13 juli ⏰ 05:36, usefull note
+  - https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/hfc_female/medium
+  - https://github.com/ggml-org/whisper.cpp/releases/tag/v1.7.6
+  - https://github.com/OHF-Voice/piper1-gpl/blob/main/docs/API_HTTP.md
 
 
 ## Flow

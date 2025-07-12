@@ -69,7 +69,7 @@ namespace Sylais.Steps
             return this;
         }
 
-        public override void Run()
+        public override async Task Run()
         {
             TakeAudioEngine();
             ChooseCaptureDevice().RecordAudio().Dispose();

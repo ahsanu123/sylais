@@ -16,7 +16,6 @@ public static class ConfigurationCollectionExtension
                 .Build()
         );
 
-        services.AddSingletonConfig<DependenciesBinaryPathConfig>();
         services.AddSingletonConfig<AudioFileConfig>();
 
         services.AddSingleton<WhisperCppCommand>();

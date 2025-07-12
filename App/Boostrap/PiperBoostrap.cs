@@ -1,33 +1,37 @@
+using System.Text;
+using CliWrap;
 using Sylais.Steps;
 
 namespace Sylais.Boostrap;
 
 public class PiperBoostrap : IBaseStep
 {
+    private Command _pythonCommand = Cli.Wrap("python");
+    private StringBuilder _outputStringBuilder = new StringBuilder();
 
-    public void CreatePiperVenv()
+    public async Task CheckPythonVersion()
+    {
+        var pythonVersion = await _pythonCommand
+            .WithArguments(["--version"])
+            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(_outputStringBuilder))
+            .ExecuteAsync();
+    }
+
+    public async Task CreatePiperVenv()
     {
 
     }
 
-    public void InstallPiper()
+    public void InstallPiper() { }
+
+    public void DownloadPiperVoice() { }
+
+    public async Task Run()
     {
-
-    }
-
-    public void DownloadPiperVoice()
-    {
-
-    }
-
-    public void Run()
-    {
-        CreatePiperVenv();
+        await CreatePiperVenv();
         InstallPiper();
         DownloadPiperVoice();
     }
 
-    public void Dispose()
-    {
-    }
+    public void Dispose() { }
 }
