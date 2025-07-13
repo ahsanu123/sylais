@@ -1,4 +1,5 @@
 using Sylais.Boostrap;
+using Sylais.Extensions;
 using Sylais.Test.Fixture;
 using Xunit.Abstractions;
 

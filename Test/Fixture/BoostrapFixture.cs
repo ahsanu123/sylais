@@ -6,11 +6,11 @@ namespace Sylais.Test.Fixture;
 
 public class BoostrapFixture : IDisposable
 {
-    protected IConfiguration _configuration;
+    public IConfiguration Configuration;
 
     public BoostrapFixture()
     {
-        _configuration = CommonConfiguration.InitConfiguration();
+        Configuration = CommonConfiguration.InitConfiguration();
     }
 
     public void Dispose()

@@ -19,13 +19,14 @@
 // Application.Shutdown();
 
 using Microsoft.Extensions.DependencyInjection;
+using Sylais.Commands;
 using Sylais.Extensions;
 using Sylais.Steps;
 
 var services = new ServiceCollection();
 
 services.RegisterConfigurationServices().RegisterServices();
-// services.AddHostedService();
+services.AddHostedService<PiperServerCommand>();
 
 var provider = services.BuildServiceProvider();
 

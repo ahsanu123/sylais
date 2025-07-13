@@ -22,9 +22,13 @@ public class PiperBoostrap : IBaseStep
 
     }
 
-    public void InstallPiper() { }
+    public void InstallPiper()
+    {
+    }
 
-    public void DownloadPiperVoice() { }
+    public void DownloadPiperVoice()
+    {
+    }
 
     public async Task Run()
     {

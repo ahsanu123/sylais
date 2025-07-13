@@ -17,6 +17,7 @@ public static class ConfigurationCollectionExtension
         );
 
         services.AddSingletonConfig<AudioFileConfig>();
+        services.AddSingletonConfig<PiperConfig>();
 
         services.AddSingleton<WhisperCppCommand>();
 
