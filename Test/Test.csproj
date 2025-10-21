@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\App\sylais.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>
