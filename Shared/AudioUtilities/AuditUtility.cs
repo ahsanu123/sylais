@@ -29,7 +29,7 @@ public class AudioUtility : IDisposable, IAudioUtility
         {
             Format = SampleFormat.F32,
             SampleRate = 48000,
-            Channels = 1,
+            Channels = 2,
         };
         var capturDev = _audioEngine.CaptureDevices.FirstOrDefault(pr => pr.IsDefault);
         var playbackDev = _audioEngine.PlaybackDevices.FirstOrDefault(pr => pr.IsDefault);
@@ -96,7 +96,7 @@ public class AudioUtility : IDisposable, IAudioUtility
         {
             Format = SampleFormat.F32,
             SampleRate = 48000,
-            Channels = 1,
+            Channels = 2,
         };
         using var dataProvider = new StreamDataProvider(
             _audioEngine,
@@ -106,6 +106,7 @@ public class AudioUtility : IDisposable, IAudioUtility
 
         using var player = new SoundPlayer(_audioEngine, audioFormat, dataProvider);
 
+        player.Volume = 100;
         _playbackDevice.MasterMixer.AddComponent(player);
 
         _playbackDevice.Start();

@@ -14,7 +14,7 @@ namespace Sylais.Test
         [Fact]
         public void RunSampleTest()
         {
-            Sylais.Kokoro.KokoroTester.RunSample();
+            Sylais.TTS.KokoroTester.RunSample();
         }
     }
 }

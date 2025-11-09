@@ -5,11 +5,34 @@ using KokoroSharp.Processing;
 using KokoroSharp.Utilities;
 using Microsoft.ML.OnnxRuntime;
 
-namespace Sylais.Kokoro;
+namespace Sylais.TTS;
 
 public static class KokoroTester
 {
     static (int a, int b, int c) Mix => (2, 10, 5);
+
+    public static async Task Speak(string text)
+    {
+        var tsc = new TaskCompletionSource();
+
+        var stopWatch = Stopwatch.StartNew();
+        var v = new SessionOptions();
+        v.AppendExecutionProvider_CPU();
+
+        using KokoroTTS tts = KokoroTTS.LoadModel(sessionOptions: v, path: "../Models/kokoro.onnx"); // The high level inference engine provided by KokoroSharp. We instantiate once, cache it, and reuse it.
+        tts.SpeakFast(text, KokoroVoiceManager.GetVoice("af_heart"));
+
+        tts.OnSpeechCompleted += _ =>
+        {
+            tsc.TrySetResult();
+        };
+
+        await tsc.Task;
+
+        stopWatch.Stop();
+        Console.WriteLine("===========================");
+        Console.WriteLine($"Elapsed time: {stopWatch.ElapsedMilliseconds} ms");
+    }
 
     public static void RunSample()
     {
@@ -33,7 +56,7 @@ public static class KokoroTester
         {
             Debug.WriteLine(voice.Name);
         }
-        tts.Speak("Welcome.", KokoroVoiceManager.GetVoice("af_heart")); // ..and synthesize speech with one line of code!
+        tts.Speak("Welcome Buddy.", KokoroVoiceManager.GetVoice("af_heart")); // ..and synthesize speech with one line of code!
 
         // You can access and subscribe to various callbacks regarding speech to stay informed:
         tts.OnSpeechStarted += (s) =>
