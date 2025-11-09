@@ -9,6 +9,12 @@
 
 ## Introduction
 
+https://www.figma.com/design/CGDrPcdIY9Q7Sagtkj7bEX/Sylais?node-id=0-1&p=f&t=GyQ6FDi9tcRD42jh-0
+
+<img width="881" height="735" alt="image" src="https://github.com/user-attachments/assets/34ae98dd-054b-4a4a-9462-25e09d49bc2f" />
+<img width="1148" height="697" alt="image" src="https://github.com/user-attachments/assets/e8344d5e-24ff-4738-b12c-542e3830a497" />
+
+
 Sylais is program to integrate 3 component: whisper.cpp, llama.cpp, and piper. the purpose is simple, convert captured voice into text, then use text for ask to AI model, then capture the answer and convert it back into voice.
 I dont want it online, i just want use locally to improve my english conversation, so the simpler the better.
 

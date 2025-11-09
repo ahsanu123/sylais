@@ -1,6 +1,10 @@
+# Test List
+tl:
+  dotnet test -t
 
-list-test: 
-  dotnet test -t 
-
-run-test TestName: 
+# Test Run
+tr TestName:
   dotnet test --logger="console;verbosity=detailed" --filter {{TestName}}
+
+tf TestName:
+  dotnet test -t | rg -i {{TestName}}
