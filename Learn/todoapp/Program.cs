@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace Ui;
+namespace TodoApp;
 
 class Program
 {
