@@ -1,3 +1,0 @@
-# Run
-run: 
-  dotnet run --diagnostics
