@@ -1,0 +1,7 @@
+r: 
+  cargo run -- --model ~/aimodels/squeezenet-candle-onnx/squeezenet1.1-7.onnx --image ./coffepot.jpeg
+
+run imagename: 
+  clear && \
+    viu -b {{imagename}} && \
+    ./target/debug/squeezenet_ort --model ~/aimodels/squeezenet-candle-onnx/squeezenet1.1-7.onnx --image ./{{imagename}}
